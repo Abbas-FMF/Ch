@@ -1,0 +1,23 @@
+import socket
+def cal(message):
+    numbers=[]
+    parameters=[]
+    math_op=['sq','re','tre']
+    parameters=message.split()
+    if len(parameters)>3:return 'Invalid request:you most inter only three parameters'
+    if not ((parameters[1].isdigit()) and (parameters[2].isdigit())): return 'Invalid request:second and third parameters must be digits'
+    if (parameters[0]=='sq' or parameters[0] == 're' ):return str(float(parameters[1]) * float (parameters[2]))
+    if (parameters[0] == 'tre'): return str((float(parameters[1]) *0.5) * float(parameters[2]))
+serverport=12800
+BUFFER_SIZE=1024
+serversocket=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+serversocket.bind(('',serverport))
+print('The server is ready to receive port 12800')
+while 1:
+    message,clientaddress=serversocket.recvfrom(BUFFER_SIZE)
+    message=message.decode('utf-8')
+    response=str(cal(message))
+    a=message.split()
+    serversocket.sendto(response.encode('utf-8'),clientaddress)
+    print('Area'+a[0]+'='+str(response))
+serversocket.close()
