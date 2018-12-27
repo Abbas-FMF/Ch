@@ -1,0 +1,22 @@
+import socket
+print('A program for calculating the area')
+print('')
+serverip='127.0.0.1'
+serverport=12800
+BUFFER_SIZE=1024
+client=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+opp=['sq','re','tre']
+while 1:
+   x=input("number 1 :")
+   y=input("number 2 :")
+   op=input('input The shape is a triangle or square or rectangle :')
+   cobyyy=str(op)
+   if op=='square':op='sq'
+   if op=='rectangle':op='re'
+   if op=='triangle':op='tre'
+   message=(op+' '+x+' '+y)
+   client.sendto(message.encode('utf-8'),(serverip,serverport))
+   response,address=client.recvfrom(BUFFER_SIZE)
+   print ('Area '+cobyyy+'='+response.decode('utf-8'))
+
+client.close()
